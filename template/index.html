@@ -1,0 +1,559 @@
+{% extends "base/all.html" %}
+
+{% load static %}
+
+{% block all %}
+<div class="container">
+    <!--Total Licencia =========================================================================================-->
+    <div class="row">
+        <!--Total Osde =========================================================================================-->
+        <div class="col-lg-3">
+            <div class="small-box bg-primary mb-3 shadow mb-5 rounded">
+                <div class="inner">
+                    <h3>{{ contar_osde }}</h3>
+                    <p><b>Osde</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <a href="{% url 'listar_osde' %}" class="small-box-footer">
+                    Mas informacion <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <!--Total Entidad =======================================================================================-->
+        <div class="col-lg-3">
+            <div class="small-box bg-secondary mb-3 shadow mb-5 rounded">
+                <div class="inner">
+                    <h3>{{ contar_entidad }}</h3>
+                    <p><b>Entidades</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-city"></i>
+                </div>
+                <a href="{% url 'listar_entidad' %}" class="small-box-footer">
+                    Mas informacion <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <!--Tota Software ======================================================================================-->
+        <div class="col-lg-3">
+            <div class="small-box bg-info mb-3 shadow mb-5 rounded">
+                <div class="inner">
+                    <h3>{{ contar_software }}</h3>
+                    <p><b>Software</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <a href="{% url 'listar_software' %}" class="small-box-footer">
+                    Mas informacion <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <!--Total Servicio ======================================================================================-->
+        <div class="col-lg-3">
+            <div class="small-box bg-danger mb-3 shadow mb-5 rounded">
+                <div class="inner">
+                    <h3>{{ contar_servicios }}</h3>
+                    <p><b>Servicios</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-cogs"></i>
+                </div>
+                <a href="{% url 'listar_servicio' %}" class="small-box-footer">
+                    Mas informacion <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--Graficos ============================================================================================================-->
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="custom-content-below-contratacion-tab" data-toggle="pill"
+                        href="#custom-content-below-contratacion" role="tab" aria-controls="custom-content-below-contratacion"
+                        aria-selected="true"><i class="fas fa-chart-pie"></i> Contratacion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-content-below-implantacion-tab" data-toggle="pill"
+                        href="#custom-content-below-implantacion" role="tab" aria-controls="custom-content-below-implantacion"
+                        aria-selected="false"><i class="fas fa-chart-bar"></i> Implantacion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-content-below-ofimatica-tab" data-toggle="pill"
+                        href="#custom-content-below-ofimatica" role="tab" aria-controls="custom-content-below-ofimatica"
+                        aria-selected="false"><i class="fas fa-chart-bar"></i> Ofimatica</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="custom-content-below-tabContent">
+                <div class="tab-pane fade active show" id="custom-content-below-contratacion" role="tabpanel" aria-labelledby="custom-content-below-contratacion-tab">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Osde_Software"></div>
+                            </figure>
+                        </div>
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Contrato_Software"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="custom-content-below-implantacion" role="tabpanel" aria-labelledby="custom-content-below-implantacion-tab">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Ingresos_Mes_Implantacion"></div>
+                            </figure>
+                        </div>
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Ingresos_Mes_Implantador"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="custom-content-below-ofimatica" role="tabpanel" aria-labelledby="custom-content-below-ofimatica-tab">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Ingresos_Mes_Ofimatica"></div>
+                            </figure>
+                        </div>
+                        <div class="col-lg-6">
+                            <figure class="highcharts-figure">
+                                <div id="Chart_Ingresos_Mes_Ofimatico"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript%}
+<!--Graficos =================================================================================================-->
+<!--Software x Osde ==========================================================================================-->
+<script type="text/Javascript">
+    var graphpie1 = Highcharts.chart('Chart_Osde_Software', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Software por osde'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                }
+            }
+        },
+    });
+    function get_software_osde_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_software_osde_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                graphpie1.addSeries(data);
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_software_osde_chart();
+    });
+</script>
+<!--Contratos x Software =====================================================================================-->
+<script type="text/Javascript">
+    var graphpie2 = Highcharts.chart('Chart_Contrato_Software', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Contrato por software'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                }
+            }
+        },
+    });
+    function get_contrato_software_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_contrato_software_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                graphpie2.addSeries(data);
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_contrato_software_chart();
+    });
+</script>
+<!--Ingresos x Mes Implantacion ==============================================================================-->
+<script type="text/Javascript">
+    var graphcolumn1 = Highcharts.chart('Chart_Ingresos_Mes_Implantacion', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Ingreso total por meses'
+        },
+        subtitle: {
+            text: 'TOTAL ANUAL: <span style="font-weight: bold; color: red">${{ total_ingresos_implantacion|floatformat:2 }}</span>'
+        },
+        xAxis: {
+            categories: [
+            'ENE',
+            'FEB',
+            'MAR',
+            'ABR',
+            'MAY',
+            'JUN',
+            'JUL',
+            'AGO',
+            'SEP',
+            'OCT',
+            'NOV',
+            'DIC',
+        ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '<b>Total $</b>'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+    });
+    function get_ingresos_mes_implantacion_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_ingresos_mes_implantacion_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                graphcolumn1.addSeries(data);
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_ingresos_mes_implantacion_chart();
+    });
+</script>
+<!--Ingreso Mensual x Implantador ============================================================================-->
+<script type="text/Javascript">
+    function create_chart_ingreso_mensual_implantador(series) {
+        var graphcolumn2 = Highcharts.chart('Chart_Ingresos_Mes_Implantador', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Ingreso mensual por implantador'
+            },
+            subtitle: {
+                text: 'TOTAL ANUAL: <span style="font-weight: bold; color: red">${{ total_ingresos_implantacion|floatformat:2 }}</span>'
+            },
+            xAxis: {
+                categories: [
+                'ENE',
+                'FEB',
+                'MAR',
+                'ABR',
+                'MAY',
+                'JUN',
+                'JUL',
+                'AGO',
+                'SEP',
+                'OCT',
+                'NOV',
+                'DIC',
+            ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '<b>Total $</b>'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series,
+        });
+    }
+
+    function transform_ingresos_mensual_implantador(data) {
+       var result = {}
+        data.forEach( row => {
+            if(!result[row.name]){
+                result[row.name] = {name: row.name, data: []}
+            }
+            result[row.name].data.push(row.data)
+        })
+        return Object.keys(result).map( name => result[name])
+    }
+
+    function get_ingresos_mensual_implantador_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_ingresos_mensual_implantador_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                create_chart_ingreso_mensual_implantador(transform_ingresos_mensual_implantador(data))
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_ingresos_mensual_implantador_chart();
+    });
+</script>
+<!--Ingresos x Mes Ofimatica =================================================================================-->
+<script type="text/Javascript">
+    var graphcolumn3 = Highcharts.chart('Chart_Ingresos_Mes_Ofimatica', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Ingreso total por meses'
+        },
+        subtitle: {
+            text: 'TOTAL ANUAL: <span style="font-weight: bold; color: red">${{ total_ingresos_ofimatica|floatformat:2 }}</span>'
+        },
+        xAxis: {
+            categories: [
+            'ENE',
+            'FEB',
+            'MAR',
+            'ABR',
+            'MAY',
+            'JUN',
+            'JUL',
+            'AGO',
+            'SEP',
+            'OCT',
+            'NOV',
+            'DIC',
+        ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '<b>Total $</b>'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+    });
+    function get_ingresos_mes_ofimatica_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_ingresos_mes_ofimatica_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                graphcolumn3.addSeries(data);
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_ingresos_mes_ofimatica_chart();
+    });
+</script>
+<!--Ingreso Mensual x Trabajador =============================================================================-->
+<script type="text/Javascript">
+    function create_chart_ingreso_mensual_ofimatico(series) {
+        var graphcolumn4 = Highcharts.chart('Chart_Ingresos_Mes_Ofimatico', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Ingreso mensual por ofimatico'
+            },
+            subtitle: {
+                text: 'TOTAL ANUAL: <span style="font-weight: bold; color: red">${{ total_ingresos_ofimatica|floatformat:2 }}</span>'
+            },
+            xAxis: {
+                categories: [
+                'ENE',
+                'FEB',
+                'MAR',
+                'ABR',
+                'MAY',
+                'JUN',
+                'JUL',
+                'AGO',
+                'SEP',
+                'OCT',
+                'NOV',
+                'DIC',
+            ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '<b>Total $</b>'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series,
+        });
+    }
+
+    function transform_ingresos_mensual_ofimatico(data) {
+       var result = {}
+        data.forEach( row => {
+            if(!result[row.name]){
+                result[row.name] = {name: row.name, data: []}
+            }
+            result[row.name].data.push(row.data)
+        })
+        return Object.keys(result).map( name => result[name])
+    }
+
+    function get_ingresos_mensual_ofimatico_chart() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_ingresos_mensual_ofimatico_chart'
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')) {
+                create_chart_ingreso_mensual_ofimatico(transform_ingresos_mensual_ofimatico(data))
+                return false;
+            }
+            message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            
+        });
+    }
+    $(function () {
+        get_ingresos_mensual_ofimatico_chart();
+    });
+</script>
+{% endblock %}

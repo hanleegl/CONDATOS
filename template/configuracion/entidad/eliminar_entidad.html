@@ -1,0 +1,29 @@
+{% extends "base/all.html" %}
+
+{% load static %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="alert alert-info mb-3 shadow mb-5 rounded">
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
+                    <p>¿Seguro(a) quieres eliminar la entidad <b>{{ object.nombre_entidad }}</b>?</p>
+                    <p>Si la <b>ENTIDAD</b> contiene datos asociados, <b style="color: darkred;">no deberia eliminarse asta culminar el año.</b></p>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn bg-gradient-success btn-sm" type="submit">
+                            <i class="fas fa-check"></i> Si, Aceptar
+                        </button>
+                        &nbsp;
+                        <a href="{% url 'listar_entidad' %}" class="btn bg-gradient-danger btn-sm"> 
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

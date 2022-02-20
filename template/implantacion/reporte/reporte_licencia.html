@@ -1,0 +1,81 @@
+{% extends "base/all.html" %}
+
+{% load static %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 shadow mb-5 rounded">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div id="buttons_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <label>
+                                        Desde: <input type="date" class="form-control datetimepicker-input" name="start_date" required>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        Hasta: <input type="date" class="form-control datetimepicker-input" name="end_date" required>
+                                    </label>
+                                    &nbsp;
+                                    <button class="btn bg-gradient-primary" type="submit" title="Filtrar">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                    &nbsp;
+                                    <a class="btn bg-gradient-success" href="{{ actualizar }}" title="Actualizar">
+                                        <i class="fas fa-sync"></i>
+                                    </a>
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <hr>
+                            <table id="listar" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Osde</th>
+                                        <th>Entidad</th>
+                                        <th>Software</th>
+                                        <th>Convenio</th>
+                                        <th>Concepto</th>
+                                        <th>Tipo BD</th>
+                                        <th>Cantidad BD</th>
+                                        <th>Ven. Licencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for d in data %}
+                                    <tr>
+                                        <td>{{ d.osde }}</td>
+                                        <td>{{ d.entidad }}</td>
+                                        <td>{{ d.software }}</td>
+                                        <td>{{ d.convenio }}</td>
+                                        <td>{{ d.concepto }}</td>
+                                        <td>{{ d.tipo_base_datos }}</td>
+                                        <td>{{ d.cantidad_base_datos }}</td>
+                                        <td>{{ d.vencimiento_licencia|date:"d-m-y" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/Javascript">
+    $(function () {
+      $("#listar").DataTable({
+        "responsive": true, 
+        "autoWidth": false,
+        "buttons": ["csv", "pdf"]
+      }).buttons().container().appendTo('#buttons_wrapper .col-md-12:eq(0)');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base/all.html" %}
+
+{% load static %}
+
+{% block all %}
+<!--Editar perfil========================================================================================-->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card mb-3 shadow mb-5 rounded">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="d-flex justify-content-end">
+                                <button class="btn bg-gradient-success btn-sm" type="submit">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                &nbsp;
+                                <a href="{% url 'inicio' %}" class="btn bg-gradient-danger btn-sm">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

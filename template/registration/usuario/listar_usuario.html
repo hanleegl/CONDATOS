@@ -1,0 +1,77 @@
+{% extends "base/all.html" %}
+
+{% load static %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 shadow mb-5 rounded">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <a class="btn bg-gradient-primary" href="{% url 'crear_usuario'%}" title="Crear">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        &nbsp;
+                        <a class="btn bg-gradient-success" href="{{ actualizar }}" title="Actualizar">
+                            <i class="fas fa-sync"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="listar" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Usuario</th>
+                                <th>Nobre</th>
+                                <th>Apellidos</th>
+                                <th>Email</th>
+                                <th>Admin</th>
+                                <th>Activo</th>
+                                <th>Ultima Sesion</th>
+                                <th>Opcion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for l in object_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ l.username }}</td>
+                                <td>{{ l.first_name }}</td>
+                                <td>{{ l.last_name }}</td>
+                                <td>{{ l.email }}</td>
+                                <td>{{ l.is_superuser }}</td>
+                                <td>{{ l.is_active }}</td>
+                                <td>{{ l.last_login | timesince }}</td>
+                                <td>
+                                    <a href="{% url 'editar_usuario' l.id %}" class="btn bg-gradient-warning btn-sm"
+                                        title="Editar">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="{% url 'eliminar_usuario' l.id %}" class="btn bg-gradient-danger btn-sm"
+                                        title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+    $(function () {
+        $("#listar").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+    });
+</script>
+{% endblock %}

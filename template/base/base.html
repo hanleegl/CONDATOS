@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Control de Licencia">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ titulo }}</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/toastr/toastr.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'libs/dist/css/adminlte.min.css' %}">
+    <!-- Shortcut Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'libs/dist/img/favicon.ico' %}">
+</head>
+
+<body class="layout-top-nav" style="height: auto;">
+    <!--Contenido cambiante=====================================================================================-->
+    {% block base %}
+
+    {% endblock %}
+    <!-- jQuery -->
+    <script src="{% static 'libs/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'libs/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'libs/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'libs/plugins/toastr/toastr.min.js' %}"></script>
+    <!-- Select2 -->
+    <script src="{% static 'libs/plugins/select2/js/select2.full.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'libs/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'libs/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+    <!-- HIGHCHART -->
+    <script src="{% static 'libs/plugins/highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'libs/plugins/highcharts/modules/exporting.js' %}"></script>
+    <script src="{% static 'libs/plugins/highcharts/modules/export-data.js' %}"></script>
+    <script src="{% static 'libs/plugins/highcharts/modules/accessibility.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'libs/dist/js/adminlte.min.js' %}"></script>
+    <!-- ALERTAS -->
+    <script type="text/Javascript">
+        {% if messages %}
+            var validaciones = '<p><b>';
+                {% for message in messages %}
+                validaciones += '{{ message }}<br>';
+                {% endfor %}
+                validaciones += '</b></p>';
+            $(function () {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                toastr.info(validaciones)
+            });
+        {% endif %}
+    </script>
+    <script type="text/Javascript">
+        {% if form.errors %}
+            var errors = '<p><b>';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += 'Ocurrio un error al ejecutar esa accion.';
+                {% endfor %}
+            {% endfor %}
+            errors += '</b></p>';
+            $(function () {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                toastr.error(errors)
+            });
+        {% endif %}
+    </script>
+    {% block javascript %}
+
+    {% endblock %}
+</body>
+
+</html>
